@@ -1,7 +1,7 @@
 from utils import *
 
 def test_acc(model):
-    print('Start evluating acc')
+    #print('Start evluating acc')
 
     data = csv_loader('dataset/test.csv')
     data_set = NameDataset(data)
@@ -29,5 +29,5 @@ def test_acc(model):
         #    print("Case {} : acc={}".format(step*batch_size,sum_acc/sum))
 
     acc = sum_acc/sum
-    print('acc=',acc)
+    #print('acc=',acc)
     return acc

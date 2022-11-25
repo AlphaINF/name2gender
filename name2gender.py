@@ -14,9 +14,7 @@ class name2gender(nn.Module):
     def forward(self, name, length):
         now = self.embeddings(name)
         now = self.drop(now)
-        input_packed = nn.utils.rnn.pack_padded_sequence(now, length, batch_first=True, enforce_sorted=False)
-        _, (ht, _) = self.rnn(input_packed, None)
-
+        _, (ht, _) = self.rnn(now, None)
         out = self.linear1(ht)
         out = self.activation(out)
         out = self.linear2(out)

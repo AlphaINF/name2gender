@@ -22,7 +22,7 @@ def csv_loader(file_name):
     logging.info('[DataLoader]: finished loading, len = ', len(output))
     return output
 
-def data_loader(file_name):
+def ccnc_loader(file_name):
     logging.info('[DataLoader]: loading data, path =' + file_name)
     fp = open(file_name, "r", encoding='utf-8', errors='ignore')
     next(fp)
@@ -73,8 +73,7 @@ def name_to_tensor(name):
     for i, e in enumerate(character_list):
         name_tensor[0][i] = e
     name_tensor = name_tensor.to(torch.long)
-    len_tensor = torch.zeros(1).to(torch.long)
-    len_tensor[0]=len(name)
+    len_tensor = torch.tensor([len(name)])
     return name_tensor, len_tensor
 
 
