@@ -1,41 +1,27 @@
 import logging
 import torch
 import numpy as np
+from tqdm import tqdm
 
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 
-def csv_loader(file_name):
-    fp = open(file_name, "r", encoding='utf-8', errors='ignore')
-    all = fp.read().split('\n')
-    fp.close()
-    output = []
-    for line in all:
-        line_element = str(line).split(',')
-        # print(line_element)
-
-        try:
-            label = ['女', '男'].index(line_element[1])
-            output.append((line_element[0], ['F', 'M'][label]))
-        except:
-            label = 0
-    logging.info('[DataLoader]: finished loading, len = ', len(output))
-    return output
 
 def ccnc_loader(file_name):
     logging.info('[DataLoader]: loading data, path =' + file_name)
-    fp = open(file_name, "r", encoding='utf-8', errors='ignore')
-    next(fp)
+    fp = open(file_name, "r", encoding='ansi', errors='ignore')
+    # next(fp)  # 不再需要忽略第一行
     all = fp.read().split('\n')
     fp.close()
     output = []
-    for line in all:
-        line_element = str(line).split('\t')
+    for line in tqdm(all):
+        line_element = str(line).split(',')  # 修改分隔符为逗号
         # print(line_element)
 
         try:
-            label = ['F', 'M'].index(line_element[3])
-            output.append((line_element[2], line_element[3]))
+            # 修改性别表示方式
+            label = ['女', '男'].index(line_element[1])  # 使用中文性别表示
+            output.append((line_element[0], ['F', 'M'][label])) # 修改索引以适应新的数据格式
         except:
             label = 0
     logging.info('[DataLoader]: finished loading, len = ', len(output))

@@ -3,7 +3,7 @@ from utils import *
 def test_acc(model):
     #print('Start evluating acc')
 
-    data = csv_loader('dataset/test.csv')
+    data = ccnc_loader('dev.csv')
     data_set = NameDataset(data)
     batch_size = 128
     data_loader = DataLoader(data_set, batch_size=batch_size, shuffle=True)

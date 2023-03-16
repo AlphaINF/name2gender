@@ -3,7 +3,7 @@ from name2gender import *
 from test import *
 import torch.optim as optim
 
-data = csv_loader('dataset/train.csv')
+data = ccnc_loader('train_your.csv')
 data_set = NameDataset(data)
 batch_size = 64
 data_loader = DataLoader(data_set, batch_size=batch_size, shuffle=True)
@@ -33,24 +33,21 @@ while True:
         loss.backward()
         optimizer.step()
 
-        if total_step % 10 ==0:
-            #print('%dth step, avg_loss: %0.4f'%(total_step*batch_size, total_loss/batch_size))
-            print('%d %0.4f %0.4f' % (total_step * batch_size, total_loss / batch_size,test_acc(model)))
+        if total_step % 200 == 0:
+            acc = test_acc(model)
+            print('%d %0.4f %0.4f' % (total_step * batch_size, total_loss / batch_size, acc))
             total_loss = 0
             out = torch.argmax(out, dim=-1)
             result = (out == labels).to(torch.float)
-            #print(torch.mean(result))
+            print(torch.mean(result))
 
-        '''if total_step %10==0:
             runtimes = total_step * batch_size
-            #print('modelsave',runtimes)
-            torch.save(model, str(runtimes)+'net.pth')
-            acc = test_acc(model)
             if acc > best_acc :
+                torch.save(model, str(runtimes) + 'net.pth')
                 best_acc = acc
                 torch.save(model,'best_net.pth')
                 print('Updating best model')
-            #break'''
+            #break
 
     all_run_times += 1
     torch.save(model, str(all_run_times) + 'net.pth')
